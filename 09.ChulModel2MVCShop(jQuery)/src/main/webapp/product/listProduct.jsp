@@ -19,33 +19,51 @@
 	function fncGetProductList(currentPage, menu){
 		/* document.getElementById("currentPage").value = currentPage; */
 		$("#currentPage").val(currentPage);
+	/* 	alert(currentPage);  */
 		/* document.getElementById("menu").value = menu; */
-		$("menu").val(menu);
-		$("prodNo").val(prodNo);
+		$("#menu").val(menu);
+	/* 	 alert(menu); */ 
+		/* $("#prodNo").val(); */
 		/* document.detailForm.submit(); */
 		$("form").attr("method", "POST").attr("action", "/product/listProduct").submit();
 	}	
 	
 	$(function() {
-		/* var menu = $("menu").val(); */
+		var menu = $("#menu").val(); 
+		/* alert("listProduct.jsp menu= "+menu); */
 		/* var prodNo = $("prodNo").val(); */
+		/* var prodNo =$("#prodNo").val(); */
+		var currentPage = $("#currentPage").val();
+		/* alert("listProduct.jsp prodNo= "+prodNo); */
 		
 		$( ".ct_btn01:contains('검색')" ).on("click", function() {
 			/* alert(  $( "td.ct_btn01:contains('검색')" ).html() ); */
-			fncGetProductList(${resultPage.currentPage});
+			fncGetProductList(currentPage,menu);
 		})
 		
 		$( ".ct_list_pop td:nth-child(3)").on("click", function() {
 			/* alert(  $( this ).text().trim() ); */
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?prodNo=${product.prodNo}&menu=${param.menu}");
-			  /* self.location = "/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}"; */  
-			 /* self.location = "/product/getProduct?prodNo=${product.prodNo}";  */
+			/* $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?prodNo=${product.prodNo}&menu=${param.menu}"); */
+			/* self.location = "/product/getProduct?prodNo=${product.prodNo}";  */
+			/* self.location = "/product/getProduct?prodNo="+prodNo+"&menu="+menu; */
+			
+			/*  self.location = "/product/getProduct?prodNo="+$(this).text().trim()+"&menu="+menu; */
+			self.location = "/product/getProduct?prodNo="+$(this).children($("#prodNo")).val()+"&menu="+menu;
 		})
 		
 		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "blue");
 		$("h7").css("color" , "red");
 		
 		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+		 
+		 $( "td" ).on( "mouseover", function() {
+			   $( this ).css( "color", "#FF8000" ); 
+			 /*  $( this ).css( "color", "#2E2E2E" ); */
+			  
+			});
+		 $('td').on("mouseout", function(){
+		      $(this).css("color","#505050");
+		 });
 	})
 
 </script>
@@ -53,11 +71,13 @@
 
 <body bgcolor="#ffffff" text="#000000">
 <%-- <c:set var = "pageType" value="product" scope="request"/> --%>
-<c:set var="pageType" value="product" scope="request"/>
+<%-- <c:set var="pageType" value="product" scope="request"/>
 <c:set var="menu" value="${param.menu}" scope="request"/>
-<c:set var="prodNo" value="${product.prodNo}" scope="request"/>
+<c:set var="prodNo" value="${product.prodNo}" scope="request"/> --%>
 
 <div style="width:98%; margin-left:10px;">
+
+<form name="detailForm">
 
 <%-- <form name="detailForm" action="/listProduct.do?menu=${menu}" method="post"> --%>
 <%-- <form name="detailForm" action="/product/listProduct?menu=${menu}" method="post"> --%>
@@ -153,16 +173,22 @@
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
-				<td align="left">
+				<td align="left" title="클릭해봐">
+				<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/>
+			 	<input type="hidden" id="menu" name="menu" value="${param.menu}"/>
 				<c:choose>
 			 		<c:when test="${param.menu eq 'manage' }"> 
 						<%-- <a href="/getProduct.do?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a> --%>
-			 			<%-- <a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a> --%>
-			 			${product.prodName}
+			 			
+			 			<%-- <a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a> --%> 
+			 			 ${product.prodName} 
 					</c:when>
 					<c:when test="${param.menu eq 'search' }"> 
 						 <%-- <a href="/getProduct.do?menu=${param.menu}">${product.prodName}</a>  --%>
-						<a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}">${product.prodName}</a>
+						<%-- <a href="/product/getProduct?prodNo=${product.prodNo}&menu=${param.menu}"> --%>
+				<%-- 		<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/>
+			 			<input type="hidden" id="menu" name="menu" value="${param.menu}"/> --%>
+						${product.prodName}<!-- </a> -->
 					</c:when>
 				</c:choose>
 				
@@ -184,7 +210,8 @@
 	<tr>
 		<td align="center">
 			<input type="hidden" id="currentPage" name="currentPage" value="${resultPage.currentPage}"/>
-			<input type="hidden" id="menu" name="menu" value="${param.menu}"/>
+			
+			
 			<%-- <input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/> --%>
 			<%-- <% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
 					◀ 이전
@@ -220,8 +247,8 @@
 		
 			
 			<%-- <c:set var = "product" value="product" scope="request"/> --%>
-			<c:set var = "search" value="search" scope="request"/>
-			<c:set var = "menu" value="menu" scope="request"/>
+			<%-- <c:set var = "search" value="search" scope="request"/>
+			<c:set var = "menu" value="menu" scope="request"/> --%>
 			
 			
 			<%-- <jsp:include page="../common/pageNavigator1.jsp"/> --%>

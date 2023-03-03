@@ -16,14 +16,19 @@
 	<script type="text/javascript">
 	
 	$(function() {
+		var menu = $("#menu").val();
+		/* alert("menu = "+menu);
+		alert("prodNo= "+$(this).children($("#prodNo")).val()); */
+		
 		$(".ct_btn01:contains('확인')").on("click", function(){
-			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?prodNo=${product.prodNo}&menu=${param.menu}");
+			/* $(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?prodNo=${product.prodNo}&menu=${param.menu}"); */
+			self.location = "/product/listProduct?prodNo="+$(this).children($("#prodNo")).val()+"&menu="+menu;
 		})
 		
 		$(".ct_btn01:contains('추가등록')").on("click", function(){
 			$(window.parent.frames["rightFrame"].document.location).attr("href","/product/addProductView.jsp");
 		})
-	});
+	})	
 	</script>
 
 </head>
@@ -135,6 +140,8 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						<input type="hidden" id="prodNo" name="prodNo" value="${product.prodNo}"/>
+			 			<input type="hidden" id="menu" name="menu" value="${param.menu}"/>
 						<%-- <a href="/product/listProduct?prodNo=${product.prodNo}&menu=${param.menu}">확인</a> --%>
 						확인
 					</td>

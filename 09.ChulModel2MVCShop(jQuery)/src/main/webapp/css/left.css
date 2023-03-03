@@ -83,3 +83,8 @@ background-repeat:no-repeat;
 	background-position: right;
 	background-repeat: repeat;
 	text-align: center;
+}
+	
+	.clicked{
+	color:gold;
+	}

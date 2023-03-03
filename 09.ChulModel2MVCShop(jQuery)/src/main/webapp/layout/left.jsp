@@ -56,13 +56,19 @@
 			 $( ".Depth03:contains('상 품 검 색')" ).on("click" , function() {
 					$(window.parent.frames["rightFrame"].document.location).attr("href","/product/listProduct?menu=search");
 			}); 
+			 $( "td" ).on( "mouseover", function() {
+				  $( this ).css( "color", "#FF8000" );
+				});
+			 $('td').on("mouseout", function(){
+			      $(this).css("color","#505050");
+			 });
 			 
-			 $('td').mouseover(function(){
+			 /* $('td').mouseover(function(){
 			      $(this).css("backgroundColor","#ccc");
 			 });
 			 $('td').mouseout(function(){
 			      $(this).css("backgroundColor","#fff");
-			 });
+			 }); */
 		});	
 		 
 	</script>
